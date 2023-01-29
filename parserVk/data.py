@@ -1,20 +1,34 @@
-from captcha import
+from .captcha import auth_vk
+
+USER_FIELDS = "photo_max," "domain," "sex," "bdate," \
+              "followers_count," "online," "last_seen,"  \
+              "contacts," "status,"
+
+GROUP_FIELDS = 'members_count,' 'status,' 'description'
+
+vk = auth_vk()
+
 
 class Data:
-    def __init__(self, fields, vk):
-        self._fields = fields
-        self._vk = vk
+    def __init__(self):
+        self._uncollected_data = []
 
 
 class UserData(Data):
-
-    @staticmethod
     def get(self, user_ids):
-        uncollected_data = []
-        data = vk.users.get(user_ids=user_ids, fields=fields)
+        data = vk.users.get(user_ids=user_ids, fields=USER_FIELDS)
         for i in data:
-            uncollected_data.append(i)
+            self._uncollected_data.append(i)
+        return self._uncollected_data
 
 
 class GroupData(Data):
-    pass
+    def get(self, group_ids):
+        data = vk.groups.getById(group_ids=group_ids, fields=GROUP_FIELDS)
+        for i in data:
+            self._uncollected_data.append(i)
+        return self._uncollected_data
+
+
+
+

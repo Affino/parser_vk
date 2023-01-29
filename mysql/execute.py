@@ -2,7 +2,7 @@ import pymysql
 
 
 class Query:
-    def __init__(self, db):
+    def __init__(self, db=None):
         self._connection = pymysql.connect(
             host="localhost",
             user="root",
