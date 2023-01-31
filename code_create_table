@@ -1,0 +1,26 @@
+CREATE TABLE vk_info (
+	id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    first_name VARCHAR(30),
+    last_name VARCHAR(30),
+    photo VARCHAR(255),
+    user_url VARCHAR(100),
+    gender INT,
+    bdate VARCHAR(10),
+    followers_count INT,
+    online_ INT,
+    last_seen TIME,
+    mobile_phone VARCHAR(30),
+    user_status VARCHAR(125),
+    group_id INT,
+    title VARCHAR(30),
+    group_url VARCHAR(125),
+    members_count INT,
+    group_status VARCHAR(125),
+    description VARCHAR(100),
+    type VARCHAR(30),
+    is_closed INT
+);
+
+---VK ID INSERT---
+INSERT INTO `db`.`vk_info` (`user_id`, `group_id`) VALUES ('383847620', '40553536');
