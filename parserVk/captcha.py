@@ -27,6 +27,5 @@ def auth_vk():
         vk_session.auth()
         vk = vk_session.get_api()
         return vk
-
     except Exception as ex:
         print(ex)

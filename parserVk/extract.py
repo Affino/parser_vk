@@ -94,8 +94,4 @@ def extract_group_data(uncollected_data):
         if isinstance(data, int):
             extracting.extract_int_data(data, first_dict_key)
 
-        # if isinstance(data, dict):
-        #     extracting.extract_dict_data(data, first_dict_key)
-
     return extracting.collected_data
-

@@ -28,7 +28,3 @@ class GroupData(Data):
         for i in data:
             self._uncollected_data.append(i)
         return self._uncollected_data
-
-
-
-
