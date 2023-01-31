@@ -22,9 +22,9 @@ class ExtractingUserData(ExtractingData):
             self.collected_data['bdate'] = data
         if 'status' == key:
             if bool(data) is True:
-                self.collected_data['status'] = data
+                self.collected_data['user_status'] = data
             else:
-                self.collected_data['status'] = None
+                self.collected_data['user_status'] = None
 
     def extract_int_data(self, data: int, key):
         if 'followers_count' == key:
@@ -32,9 +32,7 @@ class ExtractingUserData(ExtractingData):
         if 'sex' == key:
             self.collected_data['gender'] = data
         if 'online' == key:
-            self.collected_data['online'] = data
-        if 'status' == key:
-            self.collected_data['status'] = data
+            self.collected_data['online_'] = data
         if 'mobile_phone' == key:
             self.collected_data['mobile_phone'] = data
 
@@ -55,7 +53,7 @@ class ExtractingGroupData(ExtractingData):
         if 'name' == key:
             self.collected_data['title'] = data
         if 'status' == key:
-            self.collected_data['status'] = data
+            self.collected_data['group_status'] = data
         if 'description' == key:
             self.collected_data[key] = data
         if 'type' == key:

@@ -22,14 +22,8 @@ class Query:
             values.append(value)
         return values
 
-    def update(self, table, column1, column2, foreign_key, ):
-        """ Обновить старое значение
-
-        :param table: таблица
-        :param column1: столбец
-        :param foreign_key: внешний ключ
-        :param column2: столбец внешного ключа
-        """
-        query_update = f"UPDATE {table} SET {column1} WHERE {column2} = {foreign_key}"
+    def update(self, table, column1, column2, vk_id):
+        """ Обновить старое значение """
+        query_update = f"UPDATE {table} SET {column1} WHERE {column2} = {vk_id}"
         self._cursor.execute(query_update)
         self._connection.commit()
