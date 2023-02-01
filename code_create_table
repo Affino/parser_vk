@@ -11,13 +11,13 @@ CREATE TABLE vk_info (
     online_ INT,
     last_seen TIME,
     mobile_phone VARCHAR(30),
-    user_status VARCHAR(125),
+    user_status TEXT,
     group_id INT,
     title VARCHAR(30),
     group_url VARCHAR(125),
     members_count INT,
-    group_status VARCHAR(125),
-    description VARCHAR(100),
+    group_status TEXT,
+    description TEXT,
     type VARCHAR(30),
     is_closed INT
 );
