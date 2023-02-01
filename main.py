@@ -1,4 +1,5 @@
 from itertools import zip_longest
+import time
 
 from parserVk.data import *
 from parserVk.extract import extract_user_data, extract_group_data
@@ -9,35 +10,36 @@ from mysql.execute import Query
 query = Query('db')
 data = Data()
 
-# -----ID-----
-user_ids = query.select_value('vk_info', 'user_id')
-group_ids = query.select_value('vk_info', 'group_id')
-
 
 # -----USER DATA-----
-def parse_users():
+def parse_users(ids):
     user_data = UserData()
-    uncollected_data = user_data.get(user_ids)
-    for i, user_id in zip_longest(uncollected_data, user_ids):
-        if user_id is not None and i is not None:
-            collected_data = extract_user_data(i)
-            save('vk_info', collected_data, query, 'user_id', user_id)
+    uncollected_data = user_data.get(ids)
+    for i, user_id in zip_longest(uncollected_data, ids):
+        collected_data = extract_user_data(i)
+        save('vk_info', collected_data, query, 'user_id', user_id)
 
 
 # -----GROUP DATA-----
-def parse_groups():
+def parse_groups(ids):
     group_data = GroupData()
-    uncollected_data = group_data.get(group_ids)
-    for i, group_id in zip_longest(uncollected_data, group_ids):
-        if group_id and i is not None:
-            collected_data = extract_group_data(i)
-            save('vk_info', collected_data, query, 'group_id', group_id)
+    uncollected_data = group_data.get(ids)
+    for i, group_id in zip_longest(uncollected_data, ids):
+        collected_data = extract_group_data(i)
+        save('vk_info', collected_data, query, 'group_id', group_id)
 
 
 def main():
-    parse_users()
-    parse_groups()
+    # -----ID-----
+    ids = query.select_value('vk_info', 'user_id')
+    user_ids = [i for i in ids if i is not None]
+    ids = query.select_value('vk_info', 'group_id')
+    group_ids = [i for i in ids if i is not None]
+
+    parse_users(user_ids)
+    parse_groups(group_ids)
 
 
 if __name__ == '__main__':
-    main()
+    while True:
+        main()
