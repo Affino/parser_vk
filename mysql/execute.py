@@ -14,7 +14,7 @@ class Query:
 
     def select_value(self, table, column):
         values = []
-        self._cursor.execute("SELECT %s FROM %s" % (column, table))
+        self._cursor.execute("SELECT %s FROM %s ORDER BY id" % (column, table))
 
         values_in_tuple = self._cursor.fetchall()
         for value_in_tuple in values_in_tuple:
@@ -25,5 +25,10 @@ class Query:
     def update(self, table, column1, column2, vk_id):
         """ Обновить старое значение """
         query_update = f"UPDATE {table} SET {column1} WHERE {column2} = {vk_id}"
+        self._cursor.execute(query_update)
+        self._connection.commit()
+
+    def set_null(self, table, column1, column2):
+        query_update = f"UPDATE {table} SET {column1} WHERE {column2} is Null;"
         self._cursor.execute(query_update)
         self._connection.commit()
