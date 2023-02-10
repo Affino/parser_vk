@@ -1,5 +1,5 @@
-def save(table, data, query, column_id, vk_id):
-    """ Сохранить данные """
+def save(table: str, data, query, column_id, vk_id):
+    """ Сохранить данные в база данных """
 
     column = ''
     for key, value in data.items():
