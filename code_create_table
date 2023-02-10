@@ -1,26 +1,31 @@
+---NEW TABLE---
+
 CREATE TABLE vk_info (
 	id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT,
-    first_name VARCHAR(30),
-    last_name VARCHAR(30),
-    photo VARCHAR(255),
-    user_url VARCHAR(100),
-    gender INT,
-    bdate VARCHAR(10),
-    followers_count INT,
-    online_ INT,
-    last_seen TIME,
-    mobile_phone VARCHAR(30),
-    user_status TEXT,
-    group_id INT,
-    title VARCHAR(30),
-    group_url VARCHAR(125),
-    members_count INT,
-    group_status TEXT,
-    description TEXT,
-    type VARCHAR(30),
-    is_closed INT
+	vk_id INT NOT NULL UNIQUE,
+    name VARCHAR(100),
+	photo TEXT,
+	url VARCHAR(40),
+	followers_count INT,
+	city VARCHAR(30),
+	status TEXT,
+	is_closed BOOLEAN,
+	verified INT,
+	country VARCHAR(30),
+	description TEXT,
+	site VARCHAR(100),
+	contact VARCHAR(140),
+	last_update TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	is_group BOOLEAN
 );
 
+
+
 ---VK ID INSERT---
-INSERT INTO `db`.`vk_info` (`user_id`, `group_id`) VALUES ('383847620', '40553536');
+
+INSERT INTO vk_info (vk_id) VALUE (-39803480);
+INSERT INTO vk_info (vk_id) VALUE (-40553536);
+INSERT INTO vk_info (vk_id) VALUE (362550439);
+INSERT INTO vk_info (vk_id) VALUE (450308944);
+
+
