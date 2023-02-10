@@ -10,7 +10,7 @@ class Query:
             db=db
         )
         self._cursor = self._connection.cursor()
-        print(f"||Connected: {db}||")
+        print(f"Connected database: {db}")
 
     def select_value(self, table, column):
         values = []
@@ -25,10 +25,5 @@ class Query:
     def update(self, table, column1, column2, vk_id):
         """ Обновить старое значение """
         query_update = f"UPDATE {table} SET {column1} WHERE {column2} = {vk_id}"
-        self._cursor.execute(query_update)
-        self._connection.commit()
-
-    def set_null(self, table, column1, column2):
-        query_update = f"UPDATE {table} SET {column1} WHERE {column2} is Null;"
         self._cursor.execute(query_update)
         self._connection.commit()
