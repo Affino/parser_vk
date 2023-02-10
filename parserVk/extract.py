@@ -1,97 +1,116 @@
-from datetime import datetime
-
-
-class ExtractingData:
+class DataFiltering:
+    """ Фильтрация данных """
     def __init__(self):
-        self.collected_data = {}
+        self.filtered_data = {}
 
 
-class ExtractingUserData(ExtractingData):
+class UserDataFiltering(DataFiltering):
     def __init__(self):
         super().__init__()
 
-    def extract_str_data(self, data: str, key):
-        if 'domain' == key:
-            domain = data
-            self.collected_data['user_url'] = f'https://vk.com/{domain}'
-        if 'first_name' == key or 'last_name' == key:
-            self.collected_data[key] = data
+    def filter_str_data(self, data: str, key):
+        if 'first_name' == key:
+            self.filtered_data['name'] = data
+            self.filtered_data['is_group'] = 0
+        elif 'last_name' == key:
+            self.filtered_data['name'] += f' {data}'
         if 'photo_max' == key:
-            self.collected_data['photo'] = data
-        if 'bdate' == key:
-            self.collected_data['bdate'] = data
+            self.filtered_data['photo'] = data
+        if 'about' == key:
+            self.filtered_data['description'] = data
+        if 'site' == key:
+            self.filtered_data['site'] = data
+        if 'mobile_phone' == key:
+            self.filtered_data['contact'] = data
         if 'status' == key:
             if bool(data) is True:
-                self.collected_data['user_status'] = data
+                self.filtered_data['status'] = data
             else:
-                self.collected_data['user_status'] = None
+                self.filtered_data['status'] = None
 
-    def extract_int_data(self, data: int, key):
+    def filter_int_data(self, data: int, key):
+        if 'id' == key:
+            self.filtered_data['url'] = f'https://vk.com/id{data}'
+        if 'is_closed' == key:
+            if data is False:
+                self.filtered_data[key] = 0
+            else:
+                self.filtered_data[key] = 1
         if 'followers_count' == key:
-            self.collected_data[key] = data
-        if 'sex' == key:
-            self.collected_data['gender'] = data
-        if 'online' == key:
-            self.collected_data['online_'] = data
-        if 'mobile_phone' == key:
-            self.collected_data['mobile_phone'] = data
+            self.filtered_data[key] = data
+        if 'verified' == key:
+            self.filtered_data['verified'] = data
 
-    def extract_dict_data(self, data: dict, key):
-        if 'last_seen' == key:
-            time = data['time']
-            dt_object = datetime.fromtimestamp(time)
-            self.collected_data['last_seen'] = dt_object
+    def filter_dict_data(self, data: dict, key):
+        if 'city' == key:
+            city = data['title']
+            self.filtered_data['city'] = city
+        if 'country' == key:
+            country = data['title']
+            self.filtered_data['country'] = country
 
 
-class ExtractingGroupData(ExtractingData):
+class GroupDataFiltering(DataFiltering):
     def __init__(self):
         super().__init__()
 
-    def extract_str_data(self, data: str, key):
-        if 'screen_name' == key:
-            self.collected_data['group_url'] = f'https://vk.com/{data}'
+    def filter_str_data(self, data: str, key):
         if 'name' == key:
-            self.collected_data['title'] = data
+            self.filtered_data['name'] = data
+            self.filtered_data['is_group'] = 1
         if 'status' == key:
-            self.collected_data['group_status'] = data
+            self.filtered_data['status'] = data
+        if 'photo_50' == key:
+            self.filtered_data['photo'] = data
         if 'description' == key:
-            self.collected_data[key] = data
-        if 'type' == key:
-            self.collected_data[key] = data
+            self.filtered_data[key] = data
+        if 'site' == key:
+            self.filtered_data['site'] = data
 
-    def extract_int_data(self, data: int, key):
+    def filter_dict_data(self, data: dict, key):
+        if 'city' == key:
+            city = data['title']
+            self.filtered_data['city'] = city
+        if 'country' == key:
+            country = data['title']
+            self.filtered_data['country'] = country
+
+    def filter_int_data(self, data: int, key):
+        if 'id' == key:
+            self.filtered_data['url'] = f'https://vk.com/public{data}'
         if 'is_closed' == key:
-            self.collected_data[key] = data
+            self.filtered_data[key] = data
         if 'members_count' == key:
-            self.collected_data[key] = data
+            self.filtered_data['followers_count'] = data
+        if 'verified' == key:
+            self.filtered_data['verified'] = data
 
 
-def extract_user_data(uncollected_data):
-    extracting = ExtractingUserData()
+def filter_user_data(uncollected_data):
+    extracting = UserDataFiltering()
 
     for first_dict_key in uncollected_data.keys():
         data = uncollected_data[first_dict_key]
         if isinstance(data, str):
-            extracting.extract_str_data(data, first_dict_key)
-
+            extracting.filter_str_data(data, first_dict_key)
         if isinstance(data, int):
-            extracting.extract_int_data(data, first_dict_key)
-
+            extracting.filter_int_data(data, first_dict_key)
         if isinstance(data, dict):
-            extracting.extract_dict_data(data, first_dict_key)
+            extracting.filter_dict_data(data, first_dict_key)
 
-    return extracting.collected_data
+    return extracting.filtered_data
 
 
-def extract_group_data(uncollected_data):
-    extracting = ExtractingGroupData()
+def filter_group_data(unfiltered_data):
+    extracting = GroupDataFiltering()
 
-    for first_dict_key in uncollected_data.keys():
-        data = uncollected_data[first_dict_key]
+    for first_dict_key in unfiltered_data.keys():
+        data = unfiltered_data[first_dict_key]
         if isinstance(data, str):
-            extracting.extract_str_data(data, first_dict_key)
-
+            extracting.filter_str_data(data, first_dict_key)
         if isinstance(data, int):
-            extracting.extract_int_data(data, first_dict_key)
+            extracting.filter_int_data(data, first_dict_key)
+        if isinstance(data, dict):
+            extracting.filter_dict_data(data, first_dict_key)
 
-    return extracting.collected_data
+    return extracting.filtered_data
