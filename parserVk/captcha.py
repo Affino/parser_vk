@@ -1,3 +1,4 @@
+import os
 import vk_api
 
 login, password = '87476878303', 'YO-Ox-7007#-($)'
@@ -26,6 +27,9 @@ def auth_vk():
 
         vk_session.auth()
         vk = vk_session.get_api()
+        os.remove('vk_config.v2.json')
         return vk
-    except Exception as ex:
-        print(ex)
+    except vk_api.BadPassword:
+        print('Неправильный пароль или логин')
+
+
