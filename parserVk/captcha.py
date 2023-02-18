@@ -20,7 +20,7 @@ def auth_vk():
     """ Пример обработки капчи """
 
     vk_session = vk_api.VkApi(
-        login, password,
+        login, password, app_id=2685278,
         captcha_handler=captcha_handler  # функция для обработки капчи
     )
     try:

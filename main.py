@@ -1,5 +1,4 @@
 from itertools import zip_longest
-import time
 
 from parserVk.data import *
 from parserVk.extract import filter_user_data, filter_group_data
